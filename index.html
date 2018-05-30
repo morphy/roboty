@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Mateusz Wasik">
+    <title>Slider</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery.bxslider.css">
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery.bxslider.js"></script>
+    <script>if (window.module) module = window.module;</script>
+    <script>
+
+      $(function()
+      {
+        function reset()
+        {
+          $('#tabs > div').fadeOut();
+          $('#img div[data-name]').parent().parent().fadeOut();
+          $('#robots').fadeIn();
+        }
+
+        const fs = require('fs');
+
+        var path = 'pliki/';
+        var file = path + 'config.json';
+        var json_config = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+        for(let robot of json_config)
+        {
+          $('#robots').append('<div id="' + robot.nazwa.replace(' ', '-').toLowerCase() + '"><img src="' + path + robot.obrazek + '"><p>' + robot.nazwa + '</p></div>');
+
+          for(let zakladka of robot.zakladki)
+          {
+            $('#tabs').append('<div id="' + robot.nazwa.replace(' ', '-').toLowerCase() + '_' + zakladka.nazwa.replace(' ', '-').toLowerCase() + '">' + zakladka.nazwa + '</div>');
+
+            var html="";
+
+            html+= '<div data-name="' + robot.nazwa.replace(' ', '-').toLowerCase() + '_' + zakladka.nazwa.replace(' ', '-').toLowerCase() + '">';
+
+            for(let img of zakladka.slajdy)
+            {
+              html += '<div><img src="' + path + img.nazwa + '"><p>' + img.opis + '</p></div>';
+            }
+
+            html += '</div>';
+
+            $('#img').append(html);
+          }
+        }
+
+        $('#img > div').bxSlider(
+        {
+          pager: false
+        });
+
+        reset();
+
+        $(document).keyup(function(e)
+        {
+          if(e.which == 27) reset();
+        });
+
+        $('#robots > div').on('click', function()
+        {
+          $('#robots').fadeOut(100);
+          $('#tabs > div[id^="' + $(this).attr('id').replace(' ', '-').toLowerCase() + '"]').fadeIn(100);
+        });
+
+        $('#tabs > div').on('click', function()
+        {
+          $('.active').removeClass('active');
+          $(this).addClass('active');
+          $('#img div[data-name]').parent().parent().hide();
+          $('#img div[data-name="' + $(this).attr('id') + '"]').parent().parent().show();
+        });
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id="robots">
+    </div>
+    <div id="tabs">
+    </div>
+    <div id="img">
+    </div>
+  </body>
+</html>

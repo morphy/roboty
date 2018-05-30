@@ -1,0 +1,15 @@
+{
+  "name": "roboty",
+  "version": "1.0.0",
+  "description": "A desktop slideshow app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Mateusz Wasik",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^2.0.2"
+  },
+  "dependencies": {}
+}

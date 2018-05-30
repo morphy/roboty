@@ -1,0 +1,158 @@
+/* Reset */
+
+*
+{
+	margin: 0 ;
+	padding: 0 ;
+	border: 0 ;
+	vertical-align: baseline ;
+	text-decoration: none ;
+	outline: 0 ;
+	list-style-type: none ;
+	font-family: Open Sans ;
+	box-sizing: border-box ;
+}
+
+html, body
+{
+  width: 100% ;
+  height: 100% ;
+}
+
+/* Fonts */
+
+@font-face
+{
+  font-family: 'Open Sans';
+  font-weight: 700;
+  src: url('../fonts/OpenSans-Bold.ttf')  format('truetype')
+}
+
+@font-face
+{
+  font-family: 'Open Sans';
+  font-weight: 400;
+  src: url('../fonts/OpenSans-Regular.ttf')  format('truetype')
+}
+
+/* Gallery */
+
+.gallery
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100% - 64px);
+}
+
+.gallery img
+{
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Robots */
+
+#robots
+{
+	display: flex;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+#robots > div
+{
+	width: 250px;
+	padding: 20px;
+  font-size: 14px;
+  text-align: center;
+  color: #3498db;
+	cursor: pointer;
+	transition-duration: 0.3s;
+}
+
+#robots > div:hover
+{
+	background-color: #ddd;
+}
+
+#robots > div img
+{
+	display: block;
+	width: 100%;
+}
+
+#robots > div p
+{
+	display: block;
+	padding: 20px;
+}
+
+/* Tabs */
+
+#tabs
+{
+	display: flex;
+	width: 100%;
+	flex-wrap: nowrap;
+	align-content: stretch;
+  border-bottom: 1px solid #ddd;
+}
+
+#tabs > div
+{
+	flex-grow: 1;
+  padding: 20px 0;
+  font-size: 14px;
+  text-align: center;
+  color: #3498db;
+  border-bottom: 4px solid #fff;
+	cursor: pointer;
+}
+
+#tabs > div.active, #tabs > div:hover
+{
+  border-bottom: 4px solid #3498db;
+}
+
+/* Img */
+
+#img
+{
+	width: 100%;
+	height: calc(100% - 64px);
+}
+
+#img p
+{
+	padding: 20px;
+	text-align: center;
+}
+
+#img img
+{
+	height: 100%;
+	align-self: center;
+}
+
+.bx-wrapper
+{
+	margin: 0 !important;
+}
+
+.bx-wrapper, .bx-viewport, .bx-viewport > div, .bx-viewport > div > div
+{
+	height: 100% !important;
+}
+
+.bx-viewport > div > div
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
