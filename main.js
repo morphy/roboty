@@ -17,6 +17,8 @@ function createWindow()
 
   win.on('closed', () => {win = null});
 
+  win.webContents.openDevTools();
+
   win.setMenu(null);
   win.maximize();
 }

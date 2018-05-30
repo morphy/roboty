@@ -19,21 +19,23 @@
           $('#tabs > div').fadeOut();
           $('#img div[data-name]').parent().parent().fadeOut();
           $('#robots').fadeIn();
+          $('#form').hide();
         }
 
         const fs = require('fs');
+        const path = require('path');
 
-        var path = 'pliki/';
-        var file = path + 'config.json';
+        var my_path = 'pliki';
+        var file = path.join(my_path, 'config.json');
         var json_config = JSON.parse(fs.readFileSync(file, 'utf8'));
 
         for(let robot of json_config)
         {
-          $('#robots').append('<div id="' + robot.nazwa.replace(' ', '-').toLowerCase() + '"><img src="' + path + robot.obrazek + '"><p>' + robot.nazwa + '</p></div>');
+          $('#robots').append('<div id="' + robot.nazwa.replace(' ', '-').toLowerCase() + '"><img src="' + path.join(my_path, robot.obrazek) + '"><p>' + robot.nazwa + '</p></div>');
 
           for(let zakladka of robot.zakladki)
           {
-            $('#tabs').append('<div id="' + robot.nazwa.replace(' ', '-').toLowerCase() + '_' + zakladka.nazwa.replace(' ', '-').toLowerCase() + '">' + zakladka.nazwa + '</div>');
+            $('#tabs').append('<div id="' + robot.nazwa.replace(' ', '-').toLowerCase() + '_' + zakladka.nazwa.replace(' ', '-').toLowerCase() + '" data-pass="' + zakladka.haslo + '">' + zakladka.nazwa + '</div>');
 
             var html="";
 
@@ -41,7 +43,7 @@
 
             for(let img of zakladka.slajdy)
             {
-              html += '<div><img src="' + path + img.nazwa + '"><p>' + img.opis + '</p></div>';
+              html += '<div><img src="' + path.join(my_path, img.nazwa) + '"><p>' + img.opis + '</p></div>';
             }
 
             html += '</div>';
@@ -70,10 +72,36 @@
 
         $('#tabs > div').on('click', function()
         {
-          $('.active').removeClass('active');
-          $(this).addClass('active');
-          $('#img div[data-name]').parent().parent().hide();
-          $('#img div[data-name="' + $(this).attr('id') + '"]').parent().parent().show();
+          $('#form').hide();
+          var tab = $(this);
+          var tab_pass = $(this).attr('data-pass');
+
+          if(tab_pass != '')
+          {
+            $('#form').show();
+
+            $('#form form').on('submit', function(event)
+            {
+              event.preventDefault();
+
+              if($('#form form input').val() == tab_pass)
+              {
+                $('#form').hide();
+                $('#form form input').val('');
+                $('.active').removeClass('active');
+                tab.addClass('active');
+                $('#img div[data-name]').parent().parent().hide();
+                $('#img div[data-name="' + tab.attr('id') + '"]').parent().parent().show();
+              }
+            });
+          }
+          else
+          {
+            $('.active').removeClass('active');
+            tab.addClass('active');
+            $('#img div[data-name]').parent().parent().hide();
+            $('#img div[data-name="' + tab.attr('id') + '"]').parent().parent().show();
+          }
         });
       });
 
@@ -85,6 +113,11 @@
     <div id="tabs">
     </div>
     <div id="img">
+    </div>
+    <div id="form">
+      <form>
+        <input type="text" id="haslo" placeholder="Hasło">
+      </form>
     </div>
   </body>
 </html>
